@@ -1,0 +1,8 @@
+boto3
+botocore
+python-dotenv
+psycopg2-binary
+pika
+google-genai
+pydantic
+jinja2

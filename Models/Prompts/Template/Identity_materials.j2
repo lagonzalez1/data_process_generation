@@ -1,0 +1,143 @@
+You are an expert in education creating guided teacher, tutor, educator instructions based on assessment info.
+You will create a targeted plan based on the facts presented, do not deviate away from this goal.
+
+Subject: {{ subject }}
+Subject description domain: {{ subject_description }}
+Assessment title: {{ assessment_title }}
+Assessment description: {{ assessment_description }}
+
+Requirements:
+- Include the following keys: 
+- duration_minutes, learning_objectives, key_concepts, activities, assessment_questions, summary, materials_needed, appendix
+- Education based and focused, please think of at least 2 
+
+{% if custom_instructions %}
+Additional Instructions:
+{{ custom_instructions }}
+{% endif %}
+
+Example output, generate in the following JSON format:
+```json
+{
+  "guide_type": "study_guide",
+  "subject": "HS ELA",
+  "grade_level": "9",
+  "duration_minutes": 60,
+  "learning_objectives": [
+    "To analyze the main conflict in a short story",
+    "To understand how theme is developed through characters and conflict",
+    "To recognize literary devices and their impact on the story",
+    "To identify the author's purpose and message"
+  ],
+  "key_concepts": [
+    {
+      "title": "Conflict",
+      "explanation": "Conflict is a crucial element in a short story, driving the plot and character development. It can be internal, external, or a combination of both.",
+      "examples": [
+        "In the short story 'The Lottery' by Shirley Jackson, the conflict arises from the annual lottery ritual that leads to a tragic outcome.",
+        "'The Tell-Tale Heart' by Edgar Allan Poe features an internal conflict, where the narrator struggles with guilt and paranoia."
+      ]
+    },
+    {
+      "title": "Theme",
+      "explanation": "Theme is the central idea or message conveyed in a literary work. It can be conveyed through various elements, such as characters, setting, and plot.",
+      "examples": [
+        "'To Kill a Mockingbird' by Harper Lee explores themes of racial injustice and the loss of innocence.",
+        "'The Great Gatsby' by F. Scott Fitzgerald delves into the hollowness of the American Dream and the corrupting influence of wealth."
+      ]
+    },
+    {
+      "title": "Literary Devices",
+      "explanation": "Literary devices are techniques used by authors to enhance the story's meaning and impact. They can create imagery, mood, and symbolism.",
+      "examples": [
+        "Metaphor: 'Life is a journey' compares life to a journey, emphasizing its unpredictability and the need for perseverance.",
+        "Symbolism: In 'The Scarlet Letter' by Nathaniel Hawthorne, the letter 'A' symbolizes both adultery and ability, reflecting the complex nature of the protagonist."
+      ]
+    },
+    {
+      "title": "Author's Purpose",
+      "explanation": "Authors have various reasons for writing, including to entertain, inform, persuade, or express personal experiences and emotions.",
+      "examples": [
+        "'The Hunger Games' by Suzanne Collins was written to entertain readers while also exploring themes of power, rebellion, and survival.",
+        "'The Diary of a Young Girl' by Anne Frank was written to document the experiences of a young girl during the Holocaust, providing a personal account of history."
+      ]
+    }
+  ],
+  "activities": [
+    {
+      "title": "Conflict Analysis",
+      "description": "In this activity, students will analyze the main conflict in a short story and its impact on the characters and plot.",
+      "steps": [
+        "Select a short story with a clear conflict.",
+        "Identify the main conflict and its type (internal, external, or both).",
+        "Examine how the conflict affects the characters and drives the plot.",
+        "Discuss the resolution or lack thereof, and its implications."
+      ],
+      "expected_outcome": "Students will gain a deeper understanding of how conflict shapes the story and its characters."
+    },
+    {
+      "title": "Theme Exploration",
+      "description": "In this activity, students will explore how theme is developed through characters and conflict.",
+      "steps": [
+        "Select a short story with a prominent theme.",
+        "Identify the theme and its connection to the characters and conflict.",
+        "Analyze how the characters' actions, choices, and interactions contribute to the theme.",
+        "Discuss how the conflict reinforces or challenges the theme."
+      ],
+      "expected_outcome": "Students will develop their analytical skills and gain insights into the author's message and purpose."
+    },
+    {
+      "title": "Literary Devices Investigation",
+      "description": "In this activity, students will identify and analyze literary devices in a short story.",
+      "steps": [
+        "Select a short story with various literary devices.",
+        "Identify and define the literary devices used by the author.",
+        "Examine how each device contributes to the story's meaning, mood, and impact.",
+        "Discuss the effectiveness of the devices in conveying the author's message."
+      ],
+      "expected_outcome": "Students will enhance their understanding of literary techniques and their role in storytelling."
+    },
+    {
+      "title": "Author's Purpose Analysis",
+      "description": "In this activity, students will analyze the author's purpose and message in a short story.",
+      "steps": [
+        "Select a short story with a clear purpose or message.",
+        "Identify the author's purpose (entertainment, information, persuasion, etc.).",
+        "Examine how the story's elements support the author's purpose.",
+        "Discuss the effectiveness of the author's approach in conveying the message."
+      ],
+      "expected_outcome": "Students will develop their critical thinking skills and gain insights into the author's intentions and techniques."
+    }
+  ],
+  "assessment_questions": [
+    {
+      "question": "What is the main conflict in the short story you analyzed?",
+      "answer": "(Student's response)",
+      "difficulty": "medium"
+    },
+    {
+      "question": "How does the theme of the story develop through the characters and conflict?",
+      "answer": "(Student's response)",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which of the following is not a literary device used in the short story you analyzed?",
+      "answer": "(Student's response)",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the author's purpose in writing the short story you analyzed?",
+      "answer": "(Student's response)",
+      "difficulty": "hard"
+    },
+    {
+      "question": "How does the author's use of literary devices contribute to the overall impact of the short story you analyzed?",
+      "answer": "(Student's response)",
+      "difficulty": "hard"
+    }
+  ],
+  "summary": "This study guide focuses on literary analysis and argument writing in a short story. Students will explore the main conflict, theme development, literary devices, and the author's purpose. Through engaging activities and assessments, they will enhance their analytical and critical thinking skills, preparing them for the ELA DOI Assessment.",
+  "materials_needed": ["Short stories for analysis", "Writing materials", "Access to literary devices resources"],
+  "appendix": "Additional resources for literary analysis and writing skills can be found at (insert resources here)."
+}
+```

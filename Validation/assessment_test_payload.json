@@ -1,0 +1,119 @@
+
+{
+  "questions": [
+    {
+      "question_id": null,
+      "standard_text": "CCSS.ELA-LITERACY.L.9-10.3 (Apply knowledge of language to understand how language functions in different contexts, to make effective choices for meaning or style)",
+      "image_url": null,
+      "question_text": "Read the following sentences: \n\"The heavy rain fell for hours. The streets started to flood.\"\n\nWhich sentence best combines these two ideas to clearly show a cause-and-effect relationship?",
+      "question_type": "multiple_choice",
+      "points": 3,
+      "order_number": 1,
+      "is_required": true,
+      "choices": [
+        {
+          "choice_id": null,
+          "choice_text": "Because the heavy rain fell for hours, the streets started to flood.",
+          "is_correct": true,
+          "order_number": 1
+        },
+        {
+          "choice_id": null,
+          "choice_text": "The heavy rain fell for hours, and the streets started to flood.",
+          "is_correct": false,
+          "order_number": 2
+        },
+        {
+          "choice_id": null,
+          "choice_text": "The streets started to flood; the heavy rain fell for hours.",
+          "is_correct": false,
+          "order_number": 3
+        },
+        {
+          "choice_id": null,
+          "choice_text": "After the heavy rain fell for hours, the streets started to flood.",
+          "is_correct": false,
+          "order_number": 4
+        }
+      ]
+    },
+    {
+      "question_id": null,
+      "standard_text": "CCSS.ELA-LITERACY.W.9-10.3 (Write narratives or develop real or imagined experiences or events using effective technique, well-chosen details)",
+      "image_url": null,
+      "question_text": "Describe a time you felt proud of something you accomplished. Use 2-3 sentences to express your feelings and explain why you were proud.",
+      "question_type": "short_answer",
+      "points": 2,
+      "order_number": 2,
+      "is_required": true,
+      "choices": [
+        {
+          "choice_id": null,
+          "choice_text": "I felt very proud when I finished my first marathon. It was a difficult challenge, but I trained hard and pushed myself to the finish line. Crossing the finish line made me feel strong and accomplished.",
+          "is_correct": true,
+          "order_number": 1
+        }
+      ]
+    },
+    {
+      "question_id": null,
+      "standard_text": "CCSS.ELA-LITERACY.L.9-10.5 (Demonstrate understanding of word relationships, and nuances in word meanings)",
+      "image_url": null,
+      "question_text": "Read the sentence: \"The old house stood on the hill.\" Which two words would best replace \"old\" to create a more vivid and descriptive image of the house? (Select two.)",
+      "question_type": "multi_select_choice",
+      "points": 2,
+      "order_number": 3,
+      "is_required": true,
+      "choices": [
+        {
+          "choice_id": null,
+          "choice_text": "Ancient",
+          "is_correct": true,
+          "order_number": 1
+        },
+        {
+          "choice_id": null,
+          "choice_text": "Big",
+          "is_correct": false,
+          "order_number": 2
+        },
+        {
+          "choice_id": null,
+          "choice_text": "Dilapidated",
+          "is_correct": true,
+          "order_number": 3
+        },
+        {
+          "choice_id": null,
+          "choice_text": "New",
+          "is_correct": false,
+          "order_number": 4
+        },
+        {
+          "choice_id": null,
+          "choice_text": "Small",
+          "is_correct": false,
+          "order_number": 5
+        }
+      ]
+    },
+    {
+      "question_id": null,
+      "standard_text": "CCSS.ELA-LITERACY.W.9-10.1 (Write arguments to support claims in an analysis of substantive topics, using valid reasoning and relevant evidence)",
+      "image_url": null,
+      "question_text": "Do you think it is important for students to learn a second language? Explain your opinion in 2-4 sentences, providing at least one reason to support your answer.",
+      "question_type": "short_answer",
+      "points": 3,
+      "order_number": 4,
+      "is_required": true,
+      "choices": [
+        {
+          "choice_id": null,
+          "choice_text": "Yes, I believe it is very important for students to learn a second language. Learning another language can open up many opportunities for travel and work, and it also helps you understand different cultures better. It can also improve your cognitive skills.",
+          "is_correct": true,
+          "order_number": 1
+        }
+      ]
+    }
+  ]
+}
