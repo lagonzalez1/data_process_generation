@@ -84,8 +84,9 @@ class AmazonModel:
             
             response_body = json.loads(response['body'].read())
             usage = response_body.get('usage', {})
+            
             self.set_metadata(usage)    
-            logger.info(f"[INFO AMAZON] Successfully invoked model '{os.getenv("MODEL_ID")} with response type {type(response)}'.")
+            logger.info(f"[INFO AMAZON] Successfully invoked model '{os.getenv('MODEL_ID')}' with response type {type(response)}.")
             text = response_body['output']['message']['content'][0]['text']
             text = text.strip()
             if text.startswith('```json'):
