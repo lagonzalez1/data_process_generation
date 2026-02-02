@@ -53,18 +53,13 @@ class GeminiModel:
             self.set_metadata(dict(response.usage_metadata))
 
             return validated_data.model_dump()
-        except ValidationError as e:
+        except (ValidationError, ClientError) as e:
             logger.info(f"[ERROR] Exception found:  {e}")
-            return None
+            raise
         except Exception as e:
             logger.info(f"[ERROR] Exception found:  {e}")
-            return None
-        except ClientError as e:
-            logger.info(f"[ERROR] unable to invoke model: {e}")
-            return None
+            raise
         
-    
-
     """ 
         Parse the response metadata according to GeminiAPI
         link :https://ai.google.dev/api/generate-content#UsageMetadata

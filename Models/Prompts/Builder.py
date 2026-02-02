@@ -1,5 +1,5 @@
 from typing import Dict, Any, Optional, List
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 import logging
 
 logger = logging.getLogger(__name__)
@@ -12,18 +12,19 @@ class PromptConfig(BaseModel):
     system_prompt: Optional[str] = None
     max_tokens: Optional[int] = None
     temperature: Optional[float] = 0.7
-    top_p: Optional[float] = 0.6
+    top_p: Optional[float] = None
     
-    @validator('temperature')
+    @field_validator('temperature')
     def validate_temperature(cls, v):
         if v is not None and not (0 <= v <= 2):
             raise ValueError('Temperature must be between 0 and 2')
         return v
 
 class PromptBuilder:
+
     """Build prompts with validation and formatting"""
-    
     def __init__(self, registry=None):
+        logger.info("[INFO] call stack PromptBuilder")
         from Models.Prompts.Registry import registry as default_registry
         self.registry = registry or default_registry
     
@@ -31,44 +32,48 @@ class PromptBuilder:
         pass
     
     def build(self, config: PromptConfig) -> Optional[Dict[str, Any]]:
-        """
-        Build a complete prompt from config.
-        
-        Returns:
-            Dict with 'messages', 'max_tokens', 'temperature', etc.
-        """
-        # Render user prompt
-        user_prompt = self.registry.render(
-            config.template_name,
-            **config.variables
-        )
-        
-        if not user_prompt:
-            logger.error(f"Failed to render template: {config.template_name}")
-            return None
-        
-        # Build system prompt
-        system_prompt = config.system_prompt
-        
-        # Build messages
-        messages = []
-        if system_prompt:
+        try:
+            """
+            Build a complete prompt from config.
+            
+            Returns:
+                Dict with 'messages', 'max_tokens', 'temperature', etc.
+            """
+            # Render user prompt
+            user_prompt = self.registry.render(
+                config.template_name,
+                **config.variables
+            )
+            
+            if not user_prompt:
+                logger.error(f"[ERROR]Failed to render template: {config.template_name}")
+                return None
+            
+            # Build system prompt
+            system_prompt = config.system_prompt
+            
+            # Build messages
+            messages = []
+            if system_prompt:
+                messages.append({
+                    "role": "system",
+                    "content": system_prompt,
+                })
+            
             messages.append({
-                "role": "system",
-                "content": system_prompt,
+                "role": "user",
+                "content":  user_prompt,
             })
-        
-        messages.append({
-            "role": "user",
-            "content":  user_prompt,
-        })
-        
-        return {
-            "messages": messages,
-            "max_tokens": config.max_tokens,
-            "temperature": config.temperature,
-            "model": config.model
-        }
+            
+            return {
+                "messages": messages,
+                "max_tokens": config.max_tokens,
+                "temperature": config.temperature,
+                "model": config.model
+            }
+        except Exception as e:
+            logger.error(f"[ERROR Builder.py] Error on build func {e}")
+            return None
     
     def build_from_dict(self, data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Build prompt from dictionary"""

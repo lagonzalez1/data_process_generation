@@ -46,7 +46,6 @@ def handle_message(msg)->bool:
                     logger.error("[ERROR] process_question_generation result", success)
                     return False
                 
-                del builder
                 return True
             case "generate_materials":
                 generate_materials = message.get("generate_materials")
@@ -56,8 +55,8 @@ def handle_message(msg)->bool:
                     logger.error("[ERROR] process_materials_generation result", success)
                     return False
                 
-                del builder
                 return True
+            
         return False
     except Exception as e:
         logger.error(f"[ERROR] unable to procecess message {e}")

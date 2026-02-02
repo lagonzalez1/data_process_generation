@@ -12,15 +12,8 @@ load_dotenv()
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-config = Config(
-    region_name="us-west-1",
-    connect_timeout=3600, 
-    read_timeout=3600
-)
-bedrock = boto3.client(
-    "bedrock-runtime", 
-    config=config
-)
+bedrock = boto3.client('bedrock-runtime', region_name='us-west-1')
+
 class AmazonModelError(Exception):
     """Custom exception for Amazon Model errors"""
     def __init__(self, message: str, error_type: str = None, original_error: Exception = None):
@@ -56,26 +49,47 @@ class AmazonModel:
     """
     def _invoke_model(self) -> dict:
         if not self.prompt_data:
-            raise RuntimeError("no prompting data found")
+            return None
         try:
-            messages = [dict({"role": item["role"], "content": [dict({"text": item['content']})]}) for item in self.prompt_data.get("messages")]
-            messages = messages[::-1]
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "text": item['content']
+                        } for item in self.prompt_data.get("messages")
+                    ]
+                }
+            ]
+            logger.info(f"[INFO AMAZON MODEL] invoked and pushing messages {messages}")
             if not messages:
-                raise ValueError("No messages found in prompt_data")
+                return None
 
             request_body = {
                 "messages": messages, 
                 "inferenceConfig": {
-                    "maxTokens": self.prompt_data.get("max_tokens", 65536),
+                    "maxTokens": self.prompt_data.get("max_tokens", 20000),
                     "topP" : self.prompt_data.get("top_p", 0.7),
                     "temperature": self.prompt_data.get("temperature")
                 }
             }
+            logger.info(f"[INFO AMAZON MODEL] request body{request_body}")
+
+            model_id = os.getenv("MODEL_ID")
+            if not model_id:
+                raise AmazonModelError(
+                    message="MODEL_ID environment variable is not set",
+                    error_type="ConfigurationError"
+                )
+
+            logger.info(f"[INFO] Using model ID: {model_id}")
             # Invoke the model
             response = bedrock.invoke_model(
-                modelId=os.getenv("MODEL_ID"),
+                modelId=model_id,
                 body=json.dumps(request_body)
             )
+
+            logger.info(f"[INFO AMAZON] Response from bedrock model {response}")
             if not response:
                 raise AmazonModelError(
                     message="Empty response from Bedrock API",
@@ -84,7 +98,7 @@ class AmazonModel:
             
             response_body = json.loads(response['body'].read())
             usage = response_body.get('usage', {})
-            
+
             self.set_metadata(usage)    
             logger.info(f"[INFO AMAZON] Successfully invoked model '{os.getenv('MODEL_ID')}' with response type {type(response)}.")
             text = response_body['output']['message']['content'][0]['text']
@@ -97,17 +111,13 @@ class AmazonModel:
             logger.info(f"[INFO AMAZON] text: {text}")
             valid_response = self.response_validator.model_validate_json(text)
             return valid_response.model_dump()
-
-        except BotoCoreError as e:
-            logger.info(f"[ERROR AMAZON BEDROCK] BotoCoreError invoked:  {e}")
-            return None
-        except (ClientError, Exception) as e:
-            logger.info(f"[ERROR AMAZON BEDROCK] Client error invoked:  {e}")
-            return None
-        except ValidationError as e:
-            logger.info(f"[ERROR AMAZON BEDROCK] ValidationError found:  {e}")
-            return None
-        except ValueError as e:
-            logger.error(f"[ERROR AMAZON BEDROCK] ValueError while invoking model: {e}")
-            return None
+        except (BotoCoreError, ClientError, ValidationError, ValueError) as e:
+            logger.error(f"[ERROR] Model invocation failed: {e}", exc_info=True)
+            raise 
+        except Exception as e:
+            logger.error(f"[ERROR] Unexpected error: {e}", exc_info=True)
+            raise AmazonModelError(
+                message=f"Unexpected error: {str(e)}",
+                error_type="UnexpectedError"
+            )
 

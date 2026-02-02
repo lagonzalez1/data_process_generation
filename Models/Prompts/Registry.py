@@ -2,7 +2,6 @@
 from pathlib import Path
 from typing import Optional, Dict, Any
 from jinja2 import Environment, FileSystemLoader, Template
-import yaml
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,6 +13,7 @@ class PromptRegistry:
     _templates: Dict[str, Template] = {}
     
     def __new__(cls):
+        logger.info("[INFO] call stack PromptRegistry")
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._initialize()
