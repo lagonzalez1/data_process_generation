@@ -13,14 +13,15 @@ from typing import Dict, Any, Optional, List
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-    
 # Test they exist
 logger.info(f"[INFO] PromptBuilder: {PromptBuilder}")
 logger.info(f"[INFO] PromptConfig: {PromptConfig}")
 
-class AssessmentGeneration:
+
+""" Use the materails provided for additional targeted assessments"""
+class AssessmentDoMaterials:
     def __init__(self, organization_id: int, generate_assessment: Optional[dict],  business_repository: Optional[any]):
-        logger.info("[INFO] call stack init AssessmentGeneration")
+        logger.info("[INFO] call stack init AssessmentDoMaterials")
         self.organization_id = organization_id
         self.business_repository = business_repository
         self.generate_assessment = generate_assessment
@@ -47,7 +48,7 @@ class AssessmentGeneration:
             try:
                 prompt_config = PromptConfig(
                     model=os.getenv("MODEL_TYPE"),
-                    template_name=f"Identity_questions",
+                    template_name=f"Identity_question_given_materials",
                     variables={
                         "grade_level": self.generate_assessment.get("grade"),
                         "difficulty": self.generate_assessment.get("difficulty"),

@@ -6,6 +6,7 @@ from Config.SQS import SQS
 from Config.PostgreSQL import PostgresClient
 from Validation.AssessmentResponseValidator import Assessment
 from Processors.AssessmentGeneration import AssessmentGeneration
+from Processors.AssessmentDoMaterials import AssessmentDoMaterials
 from Processors.MaterialsGeneration import MaterialsGeneration
 from Data.Repositories.BusinessRepository import BusinessRepository
 from Validation.ParseClient import ParseClient, Message, GenerateQuestions
@@ -38,6 +39,15 @@ def handle_message(msg)->bool:
         business_repository, organization_id = BusinessRepository(db), message.get("organization_id")
 
         match message.get("generate_type"):
+            case "generate_questions_do_materials":    
+                generate_questions = message.get("generate_questions")
+                builder = AssessmentDoMaterials(organization_id, generate_questions, business_repository)
+                success = builder.process_question_generation()
+                if not success:
+                    logger.error("[ERROR] generate_questions_do_materials result", success)
+                    return False
+                
+                return True
             case "generate_questions":    
                 generate_questions = message.get("generate_questions")
                 builder = AssessmentGeneration(organization_id, generate_questions, business_repository)
